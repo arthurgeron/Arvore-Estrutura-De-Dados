@@ -31,57 +31,12 @@ public class Exercicio2 {
 //		operacoes.add("+");
 //		operacoes.add("5");
 		ArvoreBaskhara raiz2 = new ArvoreBaskhara("1");
-		CriarArvore(raiz2,operacoes);
+		ArvoreBaskhara.CriarArvore(raiz2,operacoes);
 		System.out.println(ArvoreBaskhara.PercorrerArvereBaskhara(raiz2));
 	}
 	
 	
 	
 	
-	public static void CriarArvore(ArvoreBaskhara raiz, ArrayList<String> vetorOperacoes)
-	{
-		Pattern pattern = Pattern.compile("[0-9]");
-		ArvoreBaskhara noduloAtual = raiz;
-		for(String operacaoOuNumero : vetorOperacoes)
-		{
-			if(noduloAtual.Number == null)
-			{
-				if(pattern.matcher(operacaoOuNumero).matches())
-				{
-					noduloAtual.Number = operacaoOuNumero;
-				}
-			}
-			else if ( noduloAtual.NumberOperator == null)
-			{
-				if(!pattern.matcher(operacaoOuNumero).matches())
-				{
-					noduloAtual.NumberOperator = operacaoOuNumero;
-				}
-			}
-			else if(pattern.matcher(operacaoOuNumero).matches())
-			{
-					if(noduloAtual.direita==null)
-					{
-						noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero);
-					}
-					else
-					{
-						noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero);
-					}
-					if(noduloAtual.direita!=null && noduloAtual.esquerda!=null && noduloAtual.LeftRightBinaryOperator!=null)
-					{
-						noduloAtual = noduloAtual.esquerda;
-					}
-			}
-			else // Caso seja um símbolo
-			{
-				if(noduloAtual.LeftRightBinaryOperator == null)
-				{
-					noduloAtual.LeftRightBinaryOperator = operacaoOuNumero;
-				}
-			}
-			
-		}
-		
-	}
+	
 }
