@@ -26,18 +26,18 @@ public class Exercicio2 {
 				scanner.close();
 				break;
 			}
-			if(operacoes.size()!=0)
+			if(operacoes.size()>1)
 			{
-				if(!Pattern.compile("[0-9]").matcher(numeroOuOperacao).matches() && !Pattern.compile("[0-9]").matcher(operacoes.toArray()[operacoes.size()-1].toString()).matches())
-				{
-					System.out.println("Nunca coloque um número seguido de outro, ou uma operação seguida de outra");
-				}
-				else if(Pattern.compile("[0-9]").matcher(numeroOuOperacao).matches() && Pattern.compile("[0-9]").matcher(operacoes.toArray()[operacoes.size()-1].toString()).matches())
-				{
-					System.out.println("Nunca coloque um número seguido de outro, ou uma operação seguida de outra");
-				}
-				else
-				{
+//				if(!Pattern.compile("[0-9]").matcher(numeroOuOperacao).matches() && !Pattern.compile("[0-9]").matcher(operacoes.toArray()[operacoes.size()-2].toString()).matches())
+//				{
+//					System.out.println("Nunca coloque um número seguido de outro, ou uma operação seguida de outra");
+//				}
+//				else if(Pattern.compile("[0-9]").matcher(numeroOuOperacao).matches() && Pattern.compile("[0-9]").matcher(operacoes.toArray()[operacoes.size()-2].toString()).matches())
+//				{
+//					System.out.println("Nunca coloque um número seguido de outro, ou uma operação seguida de outra");
+//				}
+//				else
+//				{
 					if(Pattern.compile("[0-9]{1,}|[+-/*]{1}").matcher(numeroOuOperacao).matches())
 					{
 						operacoes.add(numeroOuOperacao);
@@ -46,7 +46,7 @@ public class Exercicio2 {
 					{
 						System.out.println("Carectere inválido digitado");
 					}
-				}
+				
 			}
 			else
 			{
@@ -62,8 +62,8 @@ public class Exercicio2 {
 //		operacoes.add("+");
 //		operacoes.add("5");
 		ArvoreBaskhara raiz2 = new ArvoreBaskhara("1");
-		ArvoreBaskhara.CriarArvore(raiz2,operacoes);
-		String resultado = ArvoreBaskhara.PercorrerArvereBaskhara(raiz2);
+		ArvoreBaskhara arvore =  ArvoreBaskhara.CriarArvore(raiz2,operacoes);
+		String resultado = ArvoreBaskhara.PercorrerArvereBaskhara(arvore);
 		clearConsole();
 		System.out.println("Conta: "+resultado +"\nResultado da conta: "+ArvoreBaskhara.eval(resultado));
 	}

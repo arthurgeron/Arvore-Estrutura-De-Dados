@@ -54,7 +54,7 @@ public class ArvoreBaskhara {
         
     }
     //Preencher Nodulo
-    public static void CriarArvore(ArvoreBaskhara raiz, ArrayList<String> vetorOperacoes)
+    public static ArvoreBaskhara CriarArvore(ArvoreBaskhara raiz, ArrayList<String> vetorOperacoes)
 	{
 		Pattern pattern = Pattern.compile("[0-9]");
 		ArvoreBaskhara noduloAtual = raiz;
@@ -91,14 +91,14 @@ public class ArvoreBaskhara {
 			}
 			else // Caso seja um símbolo
 			{
-				if(noduloAtual.LeftRightBinaryOperator == null)
+				if( noduloAtual.esquerda!=null && noduloAtual.direita!=null && noduloAtual.LeftRightBinaryOperator == null)
 				{
 					noduloAtual.LeftRightBinaryOperator = operacaoOuNumero;
 				}
 			}
 			
 		}
-		
+		return raiz;
 	}
     //Percorre a arvore
     public static String PercorrerArvereBaskhara(ArvoreBaskhara arvereBaskhara)
