@@ -50,10 +50,6 @@ public class Exercicio1 {
       {
     	  System.out.println("O sistema não conseguiu calcular o valor desta equação de baskhara.\n Verifique o formato das informações digitadas e tente novamente.");
       }
-	  	ArvoreBaskhara raiz2 = new ArvoreBaskhara("1");
-	  	String[] numerosComOperacoes = new String[]{"*","2","+","3","+"};
-	  	ArvoreBaskhara.CriarArvore(raiz2, numerosComOperacoes);
-	  	System.out.println(ArvoreBaskhara.PercorrerArvereBaskhara(raiz2));
     }  
       //Percorre a árvore
     public static String PercorrerArvereBaskhara(ArvoreBaskhara arvereBaskhara)
