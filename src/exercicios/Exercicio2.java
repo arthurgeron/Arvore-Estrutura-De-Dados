@@ -33,7 +33,13 @@ public class Exercicio2 {
 		ArvoreBaskhara raiz2 = new ArvoreBaskhara(null);
 		ArvoreBaskhara arvore =  ArvoreBaskhara.CriarArvore(raiz2,operacoes);
 		String resultado = ArvoreBaskhara.PercorrerArvereBaskhara(arvore);
+		try{
 		System.out.println("Conta: "+resultado +"\nResultado da conta: "+ArvoreBaskhara.eval(resultado));
+		}
+		catch(Exception e)
+		{
+			System.out.println("Não foi possível processar o valor desta expressão resultante da leitura da árvore:\n"+ resultado);
+		}
 	}
 	
 	
