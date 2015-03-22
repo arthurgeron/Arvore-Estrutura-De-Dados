@@ -56,44 +56,49 @@ public class ArvoreBaskhara {
     //Preencher Nodulo
     public static ArvoreBaskhara CriarArvore(ArvoreBaskhara raiz, ArrayList<String> vetorOperacoes)
 	{
-		Pattern pattern = Pattern.compile("[0-9]");
+		Pattern pattern = Pattern.compile("[0-9]{1,}");
+		Pattern validOperationOrNumber = Pattern.compile("[0-9]{1,}|[+-/*]");
 		ArvoreBaskhara noduloAtual = raiz;
+		
 		for(String operacaoOuNumero : vetorOperacoes)
 		{
-			if(noduloAtual.Number == null)
+			if(validOperationOrNumber.matcher(operacaoOuNumero).matches())
 			{
-				if(pattern.matcher(operacaoOuNumero).matches())
+				if(noduloAtual.Number == null)
 				{
-					noduloAtual.Number = operacaoOuNumero;
+					if(pattern.matcher(operacaoOuNumero).matches())
+					{
+						noduloAtual.Number = operacaoOuNumero;
+					}
 				}
-			}
-			else if ( noduloAtual.NumberOperator == null)
-			{
-				if(!pattern.matcher(operacaoOuNumero).matches())
+				else if ( noduloAtual.NumberOperator == null)
 				{
-					noduloAtual.NumberOperator = operacaoOuNumero;
+					if(!pattern.matcher(operacaoOuNumero).matches())
+					{
+						noduloAtual.NumberOperator = operacaoOuNumero;
+					}
 				}
-			}
-			else if(pattern.matcher(operacaoOuNumero).matches())
-			{
-					if(noduloAtual.direita==null)
-					{
-						noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero);
-					}
-					else
-					{
-						noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero);
-					}
-					if(noduloAtual.direita!=null && noduloAtual.esquerda!=null && noduloAtual.LeftRightBinaryOperator!=null)
-					{
-						noduloAtual = noduloAtual.esquerda;
-					}
-			}
-			else // Caso seja um símbolo
-			{
-				if( noduloAtual.esquerda!=null && noduloAtual.direita!=null && noduloAtual.LeftRightBinaryOperator == null)
+				else if(pattern.matcher(operacaoOuNumero).matches())
 				{
-					noduloAtual.LeftRightBinaryOperator = operacaoOuNumero;
+						if(noduloAtual.direita==null)
+						{
+							noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero);
+						}
+						else
+						{
+							noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero);
+						}
+						if(noduloAtual.direita!=null && noduloAtual.esquerda!=null && noduloAtual.LeftRightBinaryOperator!=null)
+						{
+							noduloAtual = noduloAtual.esquerda;
+						}
+				}
+				else // Caso seja um símbolo
+				{
+					if( noduloAtual.LeftRightBinaryOperator == null)
+					{
+						noduloAtual.LeftRightBinaryOperator = operacaoOuNumero;
+					}
 				}
 			}
 			
@@ -121,10 +126,19 @@ public class ArvoreBaskhara {
                resultado = "(" + arvereBaskhara.Number + arvereBaskhara.NumberOperator + PercorrerArvereBaskhara(arvereBaskhara.esquerda) + ")";
                return resultado.replace("--", "+").replace("++", "+");
             }
-            else
+            else if(arvereBaskhara.LeftRightBinaryOperator != null)
             {
                 resultado = "(" + arvereBaskhara.Number + arvereBaskhara.NumberOperator + "(" + PercorrerArvereBaskhara(arvereBaskhara.direita) + arvereBaskhara.LeftRightBinaryOperator + PercorrerArvereBaskhara(arvereBaskhara.esquerda) + ")"+ ")";
                 return resultado.replace("--", "+").replace("++", "+");
+            }
+            else if(arvereBaskhara.NumberOperator != null)
+            {
+            	resultado = "(" + arvereBaskhara.Number + arvereBaskhara.NumberOperator + "(" + PercorrerArvereBaskhara(arvereBaskhara.direita) + arvereBaskhara.NumberOperator + PercorrerArvereBaskhara(arvereBaskhara.esquerda) + ")"+ ")";
+                return resultado.replace("--", "+").replace("++", "+");
+            }
+            else
+            {
+            	return "(0)";
             }
         }
         catch(Exception ex)
