@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Exercicio2 {
+public class Exercicio2l3l4 {
 	public static void main(String[] args)
 	{
 		ArrayList<String> operacoes = new ArrayList<String>();
@@ -30,11 +30,12 @@ public class Exercicio2 {
 				
 	
 		}
-		ArvoreBaskhara raiz2 = new ArvoreBaskhara(null);
+		ArvoreBaskhara raiz2 = new ArvoreBaskhara(null, 0);
 		ArvoreBaskhara arvore =  ArvoreBaskhara.CriarArvore(raiz2,operacoes);
+		System.out.println(ArvoreBaskhara.NoduloEstaBalanceado(arvore) ? "A árvore está balanceada!" : "A árvore não está balanceda :c");
 		String resultado = ArvoreBaskhara.PercorrerArvereBaskhara(arvore);
 		try{
-		System.out.println("Conta: "+resultado +"\nResultado da conta: "+ArvoreBaskhara.eval(resultado));
+		System.out.println("Conta: "+resultado +"\nResultado da conta: "+Eval.eval(resultado));
 		}
 		catch(Exception e)
 		{

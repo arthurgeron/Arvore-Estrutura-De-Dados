@@ -1,22 +1,27 @@
 package exercicios;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArvoreBaskhara {
-    public ArvoreBaskhara(String Number, String NumberOperator,  ArvoreBaskhara direita, String LeftRightBinaryOperator, ArvoreBaskhara esquerda){
+	String LeftRightBinaryOperator,Number,NumberOperator;
+    ArvoreBaskhara direita = null, esquerda = null;
+    int comprimentoNo;
+	
+	public ArvoreBaskhara(String Number, String NumberOperator,  ArvoreBaskhara direita, String LeftRightBinaryOperator, ArvoreBaskhara esquerda, int comprimentoNoAnterior){
         this.LeftRightBinaryOperator = LeftRightBinaryOperator;
         this.Number = Number;
         this.NumberOperator = NumberOperator;
         this.direita = direita;
         this.esquerda = esquerda;
+       comprimentoNo = comprimentoNoAnterior + 1;
     }
-    public ArvoreBaskhara(String Number){
+    public ArvoreBaskhara(String Number, int comprimentoNoAnterior){
         this.Number = Number;
+        comprimentoNo = comprimentoNoAnterior + 1;
     }
-    String LeftRightBinaryOperator,Number,NumberOperator;
-    ArvoreBaskhara direita = null, esquerda = null;
+    
+    
     public void setNoduloEsquerdo(ArvoreBaskhara nodulo) // Adicionar árvore
     {
     	this.esquerda = nodulo;
@@ -53,12 +58,72 @@ public class ArvoreBaskhara {
         }
         
     }
+    public static ArvoreBaskhara acharExtremidadeDesbalanceada(ArvoreBaskhara raiz)
+    {
+    	ArvoreBaskhara noduloAtual = raiz;
+    	if(noduloAtual.direita!=null && noduloAtual.esquerda!=null)
+    	{
+    		noduloAtual = CalcularMaiorComprimento(noduloAtual.direita)<=CalcularMaiorComprimento(noduloAtual.esquerda) ? noduloAtual.direita : noduloAtual.esquerda; 
+    	}
+    	else if(noduloAtual.direita == null || noduloAtual.esquerda == null)
+    		return noduloAtual;
+		while(true)
+    	{
+        	if(noduloAtual == null)
+        		return noduloAtual;
+        	if(noduloAtual.direita!=null && noduloAtual.esquerda!=null)
+        	{
+        		noduloAtual = CalcularMaiorComprimento(noduloAtual.direita)>=CalcularMaiorComprimento(noduloAtual.esquerda) ? noduloAtual.direita : noduloAtual.esquerda; 
+        	}
+        	else if(noduloAtual.esquerda!=null)
+        	{
+        		noduloAtual = noduloAtual.esquerda;
+        	}
+        	else if(noduloAtual.direita != null)
+        	{
+        		noduloAtual = noduloAtual.direita;
+        	}
+        	else
+        		break;
+    	}
+		return noduloAtual;
+    }
+    
+    public static int CalcularMaiorComprimento(ArvoreBaskhara nodulo)
+    {
+    	if(nodulo == null)
+    		return 0;
+    	if(nodulo.direita!=null && nodulo.esquerda!=null)
+    	{
+    		return CalcularMaiorComprimento(nodulo.direita)>=CalcularMaiorComprimento(nodulo.esquerda) ? CalcularMaiorComprimento(nodulo.direita) : CalcularMaiorComprimento(nodulo.esquerda); 
+    	}
+    	else if(nodulo.esquerda!=null)
+    	{
+    		return CalcularMaiorComprimento(nodulo.esquerda);
+    	}
+    	else if(nodulo.direita != null)
+    	{
+    		return CalcularMaiorComprimento(nodulo.direita);
+    	}
+    	else
+    		return nodulo.comprimentoNo;
+    }
+    
+    public static boolean NoduloEstaBalanceado(ArvoreBaskhara nodulo){
+    	if(nodulo == null)
+    		return true;
+    	int resultado  = CalcularMaiorComprimento(nodulo.esquerda)>= CalcularMaiorComprimento(nodulo.direita) ?  CalcularMaiorComprimento(nodulo.esquerda) -  CalcularMaiorComprimento(nodulo.direita) :  CalcularMaiorComprimento(nodulo.direita) -  CalcularMaiorComprimento(nodulo.esquerda);
+    	if(resultado>=-1 && resultado <= 1)
+    		return true;
+    	else 
+    		return false;
+    }
     //Preencher Nodulo
     public static ArvoreBaskhara CriarArvore(ArvoreBaskhara raiz, ArrayList<String> vetorOperacoes)
 	{
 		Pattern pattern = Pattern.compile("[0-9]{1,}");
 		Pattern validOperationOrNumber = Pattern.compile("[0-9]{1,}|[+-/*]");
-		ArvoreBaskhara noduloAtual = raiz;
+		ArvoreBaskhara noduloAtual = raiz, noduloAnterior = null;
 		
 		for(String operacaoOuNumero : vetorOperacoes)
 		{
@@ -82,15 +147,46 @@ public class ArvoreBaskhara {
 				{
 						if(noduloAtual.direita==null)
 						{
-							noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero);
+							noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero,noduloAtual.comprimentoNo);
+							if(!NoduloEstaBalanceado(raiz))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(raiz);
+							}
+							else if(!NoduloEstaBalanceado(noduloAnterior))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(noduloAnterior);
+							}
 						}
-						else
+						else if(noduloAtual.esquerda == null)
 						{
-							noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero);
+							noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero,noduloAtual.comprimentoNo);
+							if(!NoduloEstaBalanceado(raiz))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(raiz);
+							}
+							else if(!NoduloEstaBalanceado(noduloAnterior))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(noduloAnterior);
+							}
 						}
-						if(noduloAtual.direita!=null && noduloAtual.esquerda!=null && noduloAtual.LeftRightBinaryOperator!=null)
+						if(noduloAtual.direita!=null && noduloAtual.esquerda!=null)
 						{
-							noduloAtual = noduloAtual.esquerda;
+							if(CalcularMaiorComprimento(noduloAtual.direita)> CalcularMaiorComprimento(noduloAtual.esquerda))
+							{
+								noduloAtual = noduloAtual.esquerda;
+							}
+							else
+							{
+								noduloAtual = noduloAtual.direita;
+							}
+							if(!NoduloEstaBalanceado(raiz))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(raiz);
+							}
+							else if(!NoduloEstaBalanceado(noduloAnterior))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(noduloAnterior);
+							}
 						}
 				}
 				else // Caso seja um símbolo
@@ -101,7 +197,7 @@ public class ArvoreBaskhara {
 					}
 				}
 			}
-			
+			noduloAnterior = noduloAtual;
 		}
 		return raiz;
 	}

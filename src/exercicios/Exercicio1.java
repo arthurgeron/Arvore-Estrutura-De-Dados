@@ -20,17 +20,17 @@ public class Exercicio1 {
         scanner.close();
         
        //Cria o nódlo com a parte 4AC de delta
-        ArvoreBaskhara nodulo4ACDelta = new ArvoreBaskhara("4","*",new ArvoreBaskhara(a),"*",new ArvoreBaskhara(c));
+        ArvoreBaskhara nodulo4ACDelta = new ArvoreBaskhara("4","*",new ArvoreBaskhara(a, 0),"*",new ArvoreBaskhara(c, 0),0);
        //Calcula o valor de delta b²-4ac e salva em double
-        Double resultadoEequacaoDelta = ArvoreBaskhara.eval(PercorrerArvereBaskhara(new ArvoreBaskhara("1","*",new ArvoreBaskhara(b+"*"+b), "-" , nodulo4ACDelta)));
+        Double resultadoEequacaoDelta = Eval.eval(PercorrerArvereBaskhara(new ArvoreBaskhara("1","*",new ArvoreBaskhara(b+"*"+b,0), "-" , nodulo4ACDelta, 0)));
         //Cria o nódulo com o resultado da raiz quadrada de delta
-        ArvoreBaskhara noduloDelta = new ArvoreBaskhara(String.valueOf(Math.sqrt(resultadoEequacaoDelta)));
+        ArvoreBaskhara noduloDelta = new ArvoreBaskhara(String.valueOf(Math.sqrt(resultadoEequacaoDelta)),0);
         //Cria o nódulo com -B + Raiz quadrada de Delta
-        ArvoreBaskhara nodulo = new ArvoreBaskhara("-"+b,"+",new ArvoreBaskhara("1"), "*" , noduloDelta);
+        ArvoreBaskhara nodulo = new ArvoreBaskhara("-"+b,"+",new ArvoreBaskhara("1", 0), "*" , noduloDelta,0);
         //Cria a raiz, com a equação completa
-        ArvoreBaskhara raiz = new ArvoreBaskhara("1","*",nodulo,"/",new ArvoreBaskhara("2 * "+a));
+        ArvoreBaskhara raiz = new ArvoreBaskhara("1","*",nodulo,"/",new ArvoreBaskhara("2 * "+a, 0),0);
        //Cria um nódulo com a mesma equação de 'nodulo' porém com o a raiz de delta negativa
-        ArvoreBaskhara noduloDeltaNegativo = new ArvoreBaskhara("-"+b,"-",new ArvoreBaskhara("1"), "*" , noduloDelta);
+        ArvoreBaskhara noduloDeltaNegativo = new ArvoreBaskhara("-"+b,"-",new ArvoreBaskhara("1", 0), "*" , noduloDelta,0);
       try
       {
         if(resultadoEequacaoDelta<0) // Verifica se o delta é negativo
@@ -40,10 +40,10 @@ public class Exercicio1 {
         else
         {
 	        System.out.println("Equação com delta positivo: "+ PercorrerArvereBaskhara(raiz));
-	        System.out.println("O valor de x0 é : " + ArvoreBaskhara.eval(PercorrerArvereBaskhara(raiz)));
+	        System.out.println("O valor de x0 é : " + Eval.eval(PercorrerArvereBaskhara(raiz)));
 	        raiz.setNoduloDireito(noduloDeltaNegativo);
 	        System.out.println("Equação com delta negativo: "+ PercorrerArvereBaskhara(raiz));
-	        System.out.println("O valor de x1 é : " + ArvoreBaskhara.eval(PercorrerArvereBaskhara(raiz)));
+	        System.out.println("O valor de x1 é : " + Eval.eval(PercorrerArvereBaskhara(raiz)));
         }
       }
       catch(Exception exception)
