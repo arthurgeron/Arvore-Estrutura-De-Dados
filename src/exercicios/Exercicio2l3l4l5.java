@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Exercicio2l3l4 {
+public class Exercicio2l3l4l5 {
 	public static void main(String[] args)
 	{
 		ArrayList<String> operacoes = new ArrayList<String>();

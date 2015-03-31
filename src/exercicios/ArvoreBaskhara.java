@@ -89,6 +89,7 @@ public class ArvoreBaskhara {
 		return noduloAtual;
     }
     
+    //Calcula a altura de cada nó
     public static int CalcularMaiorComprimento(ArvoreBaskhara nodulo)
     {
     	if(nodulo == null)
@@ -108,7 +109,7 @@ public class ArvoreBaskhara {
     	else
     		return nodulo.comprimentoNo;
     }
-    
+    //Calcula se o nó e seus ramos/folhas são AVL
     public static boolean NoduloEstaBalanceado(ArvoreBaskhara nodulo){
     	if(nodulo == null)
     		return true;
