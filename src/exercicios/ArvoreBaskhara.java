@@ -1,6 +1,7 @@
 package exercicios;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class ArvoreBaskhara {
@@ -146,7 +147,29 @@ public class ArvoreBaskhara {
 				}
 				else if(pattern.matcher(operacaoOuNumero).matches())
 				{
-						if(noduloAtual.direita==null)
+						if(noduloAtual.direita == null && noduloAtual.esquerda == null)
+						{
+							//Usa um cálculo para escolher entre a esquerda e a direita de forma randômica
+							if( new Random().nextInt() % (1 - 0 + 1) == 1)
+							{
+								noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero,noduloAtual.comprimentoNo);
+							}
+							else
+							{
+								noduloAtual.esquerda = new ArvoreBaskhara(operacaoOuNumero,noduloAtual.comprimentoNo);
+							}
+							
+							if(!NoduloEstaBalanceado(raiz))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(raiz);
+							}
+							else if(!NoduloEstaBalanceado(noduloAnterior))
+							{
+								noduloAtual = acharExtremidadeDesbalanceada(noduloAnterior);
+							}
+							
+						}
+						else if(noduloAtual.direita==null)
 						{
 							noduloAtual.direita = new ArvoreBaskhara(operacaoOuNumero,noduloAtual.comprimentoNo);
 							if(!NoduloEstaBalanceado(raiz))
@@ -180,6 +203,7 @@ public class ArvoreBaskhara {
 							{
 								noduloAtual = noduloAtual.direita;
 							}
+							
 							if(!NoduloEstaBalanceado(raiz))
 							{
 								noduloAtual = acharExtremidadeDesbalanceada(raiz);
